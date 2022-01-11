@@ -38,6 +38,7 @@ def translate_sentence(sentence):
         result = "Model isn't familiar with this sentence!"
     else:
         result = Parallel_data.get(max_word)
+    print(result)
     return result
 
 app = Flask(__name__)
