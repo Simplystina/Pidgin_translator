@@ -60,4 +60,5 @@ def index():
     return '<h1>Welcome! API for translating English sentence to Pidgin sentence<h1>', 200
  
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')# set debug to false before deployment
+    port = os.environ.get("PORT",5000)
+    app.run(debug=False, host='0.0.0.0',port=port)# set debug to false before deployment
