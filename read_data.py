@@ -5,10 +5,10 @@ import os
 import pickle
 import flask
 from flask import Flask, jsonify, request
+import sentence_transformers
 cwd = os.getcwd()
+model = SentenceTransformer('distilbert-base-nli-mean-tokens')
 
-with open(f"{cwd}\model.p", 'rb') as handle:
-    model = pickle.load(handle)
 file = f"{cwd}\Parralel_data.p"
 with open(file, 'rb') as handle:
     Parallel_data = pickle.load(handle)
