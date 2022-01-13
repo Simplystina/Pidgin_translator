@@ -24,3 +24,7 @@ This API endpoints returns the JSON representation of the resources created or e
 {
  "prediction": string
  }
+
+
+This is the link to the url https://api-for-translator.herokuapp.com/
+
