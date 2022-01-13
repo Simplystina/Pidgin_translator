@@ -17,4 +17,10 @@ pidgin translator is a machine learning platform that interprets an English sent
 * Run read_data.py file to start the application
 
 ### Response
+This API endpoints returns the JSON representation of the resources created or edited
 
+
+
+{
+ "prediction": string
+ }
