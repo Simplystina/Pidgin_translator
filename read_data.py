@@ -9,10 +9,10 @@ import sentence_transformers
 from sentence_transformers import SentenceTransformer, util
 model = SentenceTransformer('distilbert-base-nli-mean-tokens')
 
-with open("sentence_embeddings.p", 'rb') as handle:
+with open("sentence_embeddings.pickle", 'rb') as handle:
     sentence_embeddings = pickle.load(handle)
 
-with open("Parralel_data.p", 'rb') as handle:
+with open("Parralel_data.pickle", 'rb') as handle:
     Parallel_data = pickle.load(handle)
 
 data  = np.load("data.npy",allow_pickle=True)

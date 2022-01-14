@@ -41,15 +41,10 @@ for i in range(len(data)):
     sentence_embeddings = model.encode(eg)
     sent_embed[eg] = sentence_embeddings
 
-try:
-    import cPickle as pickle
-except ImportError:  # Python 3.x
-    import pickle
-
-with open('Parralel_data.p', 'wb') as fp:
+with open('Parralel_data.pickle', 'wb') as fp:
     pickle.dump(parallel_sentence, fp, protocol=pickle.HIGHEST_PROTOCOL)
     
-with open('sentence_embeddings.p', 'wb') as fp:
+with open('sentence_embeddings.pickle', 'wb') as fp:
     pickle.dump(sent_embed, fp, protocol=pickle.HIGHEST_PROTOCOL)
     
 np.save("data", np.array(data))
