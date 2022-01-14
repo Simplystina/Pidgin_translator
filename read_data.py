@@ -22,6 +22,7 @@ def translate_sentence(sentence):
     if sentence == "":
         return
     result = ""
+    sentence = sentence.translate(str.maketrans('', '', string.punctuation))
     example_embed = model.encode(sentence)
     max_similarity = 0
     max_word = ""
