@@ -1,22 +1,21 @@
 import numpy as np
-from sentence_transformers import SentenceTransformer, util
 import pandas as pd
 import os
+import string
 import pickle
 import flask
 from flask import Flask, jsonify, request
 import sentence_transformers
-cwd = os.getcwd()
+from sentence_transformers import SentenceTransformer, util
 model = SentenceTransformer('distilbert-base-nli-mean-tokens')
 
-file = f"{cwd}\Parralel_data.p"
-with open(file, 'rb') as handle:
-    Parallel_data = pickle.load(handle)
-
-with open(f"{cwd}\sentence_embeddings.p", 'rb') as handle:
+with open("sentence_embeddings.p", 'rb') as handle:
     sentence_embeddings = pickle.load(handle)
 
-data  = np.load(cwd+r"\data.npy",allow_pickle=True)
+with open("Parralel_data.p", 'rb') as handle:
+    Parallel_data = pickle.load(handle)
+
+data  = np.load("data.npy",allow_pickle=True)
 data =list(data)
 
 def translate_sentence(sentence):
@@ -30,23 +29,32 @@ def translate_sentence(sentence):
         eg = data[i]['translate']['en']
         result=util.pytorch_cos_sim(example_embed, sentence_embeddings[eg])
         ans = result.numpy().flatten()[0] *100
-        if ((ans >= 80) and (ans>max_similarity)):
+        if ((ans >= 90) and (ans>max_similarity)):
             max_similarity = ans
             max_word = eg
       
     if (max_similarity == 0):
-        result = "Model isn't familiar with this sentence!"
+        return "Model isn't familiar with this sentence!"
     else:
         result = Parallel_data.get(max_word)
-    print(result)
-    return result
+    last_word = sentence.split()[-1]
+    end =last_word.translate(str.maketrans('', '', string.punctuation))
+    if (last_word[-1] == "?") and (end =="o"*len(end)):
+        return f"{result} {'o'*len(end)}?"
 
+    if (last_word[-1] == "?"):
+        return f"{result}?"
+    if (end =="o"*len(end)):
+        return f"{result} {'o'*len(end)}"
+    
+    return result
+ 
 app = Flask(__name__)
 @app.route('/predict', methods=['GET'])
 def predict_sentence():
     
-    eg_sentence = request.args.get("sentence","")
-    predictions = translate_sentence(eg_sentence)
+    sentence = request.args.get("sentence","")
+    predictions = translate_sentence(sentence)
     
     # Return on a JSON format
     if predictions is not None:
