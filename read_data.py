@@ -30,7 +30,7 @@ def translate_sentence(sentence):
         eg = data[i]['translate']['en']
         result=util.pytorch_cos_sim(example_embed, sentence_embeddings[eg])
         ans = result.numpy().flatten()[0] *100
-        if ((ans >= 90) and (ans>max_similarity)):
+        if ((ans >= 80) and (ans>max_similarity)):
             max_similarity = ans
             max_word = eg
       
